@@ -1,0 +1,68 @@
+type Query {
+         greeting(name: String): String
+         add(numbers: [Float!]!): String
+         grades: [Float!]
+         hello: String
+         me: User
+         post(query: String): [Post!]!  
+         users(query: String): [User!]!
+         comments(query: String): [Comment!]!
+     }
+
+     type Mutation {
+         createUser(user: CreateUserInput!): User!
+         deleteUser(id: ID!): User!
+         createPost(title: String!, body: String!, author: ID!, published: Boolean!): Post!
+         deletePost(id: ID!): Post!
+         createComment(text: String!, post: ID!, user: ID!): Comment!
+     }
+
+     type Subscription {
+         count: Int!
+         comment(postId: ID!): Comment!
+         post: PostSubscription!
+     }
+
+     enum MutationType {
+         CREATED
+         UPDATED
+         DELETED
+     }
+
+     type PostSubscription {
+         mutation: MutationType!
+         data: Post!
+     }
+
+     type User {
+         id: ID!
+         name: String!
+         email: String!
+         age: Int
+         address: String!
+         posts: [Post!]!
+         comments: [Comment!]!
+     }
+
+     input CreateUserInput {
+         name: String!
+         email: String!
+         age: Int!
+         address: String!
+     }
+
+     type Post {
+         id: ID!
+         title: String!
+         body: String!
+         published: Boolean!
+         author: User!
+         comments: [Comment!]!
+     }
+
+     type Comment {
+         id: ID!
+         text: String!
+         post: Post!
+         user: User!
+     }
